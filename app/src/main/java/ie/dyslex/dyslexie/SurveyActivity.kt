@@ -23,7 +23,7 @@ class SurveyActivity : AppCompatActivity() {
 
     var settings: MutableMap<String,Int> = mutableMapOf("mixUp" to 0, "upsideDown" to 0, "jump" to 0, "bunched" to 0, "skip" to 0, "size" to 0, "font" to 0, "colour" to 0)
     var whatMixUp: String = ""
-    var whatUpsideDown: MutableSet<String> = mutableSetOf()
+    var whatUpsideDown: String = ""
 
     var fontChoices: List<Int> = listOf(R.font.arial,R.font.verdana, R.font.times_new_roman, R.font.open_dyslexic)
     var colourChoices: List<Int> = listOf(R.color.backgroundPink, R.color.backgroundPurple, R.color.backgroundYellow, R.color.backgroundBlue, R.color.backgroundWhite)
@@ -96,13 +96,13 @@ class SurveyActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = sharedPref.edit()
         for((k,v) in settings)
         {
-            if(k == "whatMixUp")
+            if(k == "mixUp")
             {
-                editor.putString(k,whatMixUp)
+                editor.putString(k, whatMixUp)
             }
-            else if(k == "whatUpsideDown")
+            else if(k == "upsideDown")
             {
-                editor.putStringSet(k,whatUpsideDown)
+                editor.putString(k, whatUpsideDown)
             }
             else
             {
@@ -170,11 +170,11 @@ class SurveyActivity : AppCompatActivity() {
                 var tempView = question_container.input_container.getChildAt(i)
                 if(questionId == "whatMixUp")
                 {
-                    whatMixUp += tempView.letter_a.text.toString() + tempView.letter_b.text.toString() + ","
+                    whatMixUp += tempView.letter_a.text.toString() + tempView.letter_b.text.toString()
                 }
                 else
                 {
-                    whatUpsideDown.add(tempView.letter.text.toString())
+                    whatUpsideDown += tempView.letter.text.toString()
                 }
             }
             onAnswer(questionId,0)

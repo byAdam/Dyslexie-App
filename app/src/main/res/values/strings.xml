@@ -5,6 +5,7 @@
 
     <string name="banner_description">Dyslexie Banner</string>
     <string name="survey_button">Take Survey</string>
+    <string name="settings_button">Settings</string>
     <string name="toggle_button">Toggle</string>
     <string name="back_button">Back</string>
     <string name="next_button">Next</string>
@@ -23,10 +24,10 @@
     <string name="survey_size">Do you often find the text size too small?</string>
     <string name="survey_font">Which font do you prefer?</string>
     <string name="survey_colour">Which colour do you prefer?</string>
-    <string name="survey_choice_text">Penguins eat krill, fish, squid, and other small animals from the ocean, which they catch. They are at home in the ocean. They come up on the land or ice to lay their eggs and raise the chicks. They don\'t eat there because they live in places where the land has no food for them. In most species the birds all nest together in a huge group, called a rookery. They usually make nests on the ground with rocks or mud.</string>
+    <string name="survey_choice_text">Penguins eat krill, fish, squid, and other small animals from the ocean, which they catch. They are at home in the ocean. They come up on the land or ice to lay their eggs and raise the chicks.</string>
 
-    <string name="add_button">Add</string>
-    <string name="remove_button">Remove</string>
+    <string name="add_button">+</string>
+    <string name="remove_button">x</string>
     <string name="submit_button">Submit</string>
     <string name="survey_complete">Survey Complete!</string>
     <string name="close_button">Close</string>

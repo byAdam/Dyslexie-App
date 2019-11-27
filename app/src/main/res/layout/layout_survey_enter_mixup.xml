@@ -2,30 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
     android:orientation="horizontal">
 
     <EditText
         android:id="@+id/letter_a"
+        style="@style/inputTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="1" />
+        android:layout_marginRight="5dp"
+        android:layout_weight="2" />
 
     <EditText
         android:id="@+id/letter_b"
+        style="@style/inputTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="1" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="2" />
 
     <Button
         android:id="@+id/input_button_mixup"
+        style="@style/ButtonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
         android:layout_weight="1"
         android:text="@string/add_button" />
 </LinearLayout>
