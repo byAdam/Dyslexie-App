@@ -1,7 +1,6 @@
 package ie.dyslex.android.apis.accessibility
 
 import android.accessibilityservice.AccessibilityService
-import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.content.Context
@@ -12,54 +11,39 @@ import android.util.TypedValue
 import android.widget.RelativeLayout
 import androidx.core.content.res.ResourcesCompat
 import android.widget.TextView
-import androidx.core.text.HtmlCompat
 import kotlinx.android.synthetic.main.activity_overlay_off.view.*
 import kotlinx.android.synthetic.main.activity_overlay_on.view.*
 import android.text.Spannable
 import android.text.style.BackgroundColorSpan
 import android.text.SpannableString
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.text.style.ClickableSpan
 import android.view.*
 import androidx.core.text.isDigitsOnly
-import org.w3c.dom.Text
-import java.util.regex.Matcher
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.text.method.LinkMovementMethod
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.opengl.Visibility
 import android.os.Handler
 import android.os.Looper
-import android.provider.Contacts
 import android.text.TextPaint
 import android.util.DisplayMetrics
-import android.widget.ImageView
-import android.widget.ScrollView
-import androidx.core.graphics.component1
-import androidx.core.graphics.component2
-import androidx.core.graphics.component3
+import androidx.core.content.ContextCompat
 import org.json.JSONObject
 import java.net.URL
 import kotlin.concurrent.thread
 
 
 class MainService : AccessibilityService() {
-    protected lateinit var oLayout: RelativeLayout
-    var openView: View? = null
-    var displayView: View? = null
-    var settingCategories: List<String> = listOf("mixUp","upsideDown","jump","bunched","skip","size","font","colour","complete")
-    var settings: MutableMap<String,Int> = mutableMapOf("mixUp" to 0, "upsideDown" to 0, "jump" to 0, "bunched" to 0, "skip" to 0, "size" to 0, "font" to 0, "colour" to 0)
-    var whatHighlight = ""
-    var oLayoutParams = WindowManager.LayoutParams()
-    var oToggle: Boolean = false
-    var currentText: String = ""
-    var currentEventSource: AccessibilityNodeInfo? = null
-    var screenWidth: Int = 0
-    var fontChoices: List<Int> = listOf(R.font.arial,R.font.verdana, R.font.times_new_roman, R.font.open_dyslexic)
-    var colourChoices: List<Int> = listOf(R.color.backgroundPink, R.color.backgroundPurple, R.color.backgroundYellow, R.color.backgroundBlue, R.color.backgroundWhite)
+    private lateinit var oLayout: RelativeLayout
+    private var openView: View? = null
+    private var displayView: View? = null
+    private var settingCategories: List<String> = listOf("mixUp","upsideDown","jump","bunched","skip","size","font","colour","complete")
+    private var settings: MutableMap<String,Int> = mutableMapOf("mixUp" to 0, "upsideDown" to 0, "jump" to 0, "bunched" to 0, "skip" to 0, "size" to 0, "font" to 0, "colour" to 0)
+    private var whatHighlight = ""
+    private var oLayoutParams = WindowManager.LayoutParams()
+    private var oToggle: Boolean = false
+    private var currentText: String = ""
+    private var currentEventSource: AccessibilityNodeInfo? = null
+    private var screenWidth: Int = 0
+    private var fontChoices: List<Int> = listOf(R.font.arial,R.font.verdana, R.font.times_new_roman, R.font.open_dyslexic)
+    private var colourChoices: List<Int> = listOf(R.color.backgroundPink, R.color.backgroundPurple, R.color.backgroundYellow, R.color.backgroundBlue, R.color.backgroundWhite)
 
 
     override fun onInterrupt() {
@@ -71,9 +55,9 @@ class MainService : AccessibilityService() {
         loadSettings()
         initOverlay()
 
-        var displayMetrics = DisplayMetrics()
+        val displayMetrics = DisplayMetrics()
         val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        wm.getDefaultDisplay().getMetrics(displayMetrics)
+        wm.defaultDisplay.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
     }
 
@@ -90,7 +74,7 @@ class MainService : AccessibilityService() {
             }
             else
             {
-                settings[k] = sharedPref.getInt(k,0)!!
+                settings[k] = sharedPref.getInt(k,0)
             }
         }
     }
@@ -99,9 +83,9 @@ class MainService : AccessibilityService() {
     {
         if (event.eventType==AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED || event.eventType==AccessibilityEvent.TYPE_WINDOWS_CHANGED)
         {
-            if(event?.source!=null)
+            if(event.source!=null)
             {
-                currentEventSource = event?.source
+                currentEventSource = event.source
             }
         }
     }
@@ -127,12 +111,9 @@ class MainService : AccessibilityService() {
     {
         if(node?.parent != null)
         {
-            return highestParent(node!!.parent)
+            return highestParent(node.parent)
         }
-        else
-        {
-            return node
-        }
+        return node
     }
 
     private fun printAllViews(mNodeInfo: AccessibilityNodeInfo?) {
@@ -140,7 +121,7 @@ class MainService : AccessibilityService() {
         val syllableRegex = "[^aeiouy]*[aeiouy]+(?:[^aeiouy]*$|[^aeiouy](?=[^aeiouy]))?".toRegex()
 
         if (mNodeInfo == null) return
-        var nodeRect = Rect()
+        val nodeRect = Rect()
         mNodeInfo.getBoundsInScreen(nodeRect)
         if(nodeRect.left >= 0 && nodeRect.right <= screenWidth && nodeRect.right >= 0 && nodeRect.left <= screenWidth)
         {
@@ -149,15 +130,15 @@ class MainService : AccessibilityService() {
                 var newString = mNodeInfo.text.toString()
                 if(newString.split(" ").size > 2) {
                     if (settings["bunched"] == 1) {
-                        var syllableSequence = syllableRegex.findAll(newString)
-                        var syllableSequenceConcat: Sequence<String> = syllableSequence.map { it.groupValues.joinToString("•") }
+                        val syllableSequence = syllableRegex.findAll(newString)
+                        val syllableSequenceConcat: Sequence<String> = syllableSequence.map { it.groupValues.joinToString("•") }
                         newString = syllableSequenceConcat.joinToString("•")
                         newString = newString.replace("• ", " ")
                         newString = newString.replace(" •", " ")
                     }
                     currentText += newString + "\n\n"
 
-                    var output = Rect()
+                    val output = Rect()
                     mNodeInfo.getBoundsInScreen(output)
                 }
             }
@@ -181,13 +162,13 @@ class MainService : AccessibilityService() {
 
         openView = LayoutInflater.from(this).inflate(R.layout.activity_overlay_off, oLayout,false)
 
-        toggleDisplay(false, false)
+        toggleDisplay(toggleOn = false, removeView = false)
     }
 
     private fun applySettings()
     {
         // Set Font
-        displayView!!.display_view.setTypeface(ResourcesCompat.getFont(this, fontChoices[settings["font"]!!]))
+        displayView!!.display_view.typeface=ResourcesCompat.getFont(this, fontChoices[settings["font"]!!])
 
         if(settings["size"]==1)
         {
@@ -216,7 +197,7 @@ class MainService : AccessibilityService() {
                 break
             else {
                 wordToSpan.setSpan(
-                    BackgroundColorSpan(resources.getColor(R.color.highlight)),
+                    BackgroundColorSpan(ContextCompat.getColor(this, R.color.highlight)),
                     ofe,
                     ofe + textToHighlight.length,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -229,21 +210,21 @@ class MainService : AccessibilityService() {
 
     private fun onWordClick(word: String)
     {
-        var url: URL? = null
-        var bmp: Bitmap? = null
-        var cleanedWord = word.filter { it.isLetterOrDigit() }
-        var t = thread(start = true) {
-            val apiResponse = URL("https://www.googleapis.com/customsearch/v1?key=AIzaSyD78nsjpP4DeXhDjVclClIeo7vGVplzef0&cx=000786388690677003860:ic6wap8cf4w&q="+cleanedWord+"+clipart&searchType=image&alt=json&num=1&start=1").readText()
-            var json: JSONObject = JSONObject(apiResponse)
+        var url: URL?
+        var bmp: Bitmap?
+        val cleanedWord = word.filter { it.isLetterOrDigit() }
+        thread(start = true) {
+            val apiResponse = URL("https://www.googleapis.com/customsearch/v1?key=AIzaSyD78nsjpP4DeXhDjVclClIeo7vGVplzef0&cx=000786388690677003860:ic6wap8cf4w&q=$cleanedWord+clipart&searchType=image&alt=json&num=1&start=1").readText()
+            val json = JSONObject(apiResponse)
 
             url = URL(json.getJSONArray("items").getJSONObject(0).getString("link"))
             bmp = BitmapFactory.decodeStream(url?.openConnection()?.getInputStream())
 
-            Handler(Looper.getMainLooper()).post(Runnable {
+            Handler(Looper.getMainLooper()).post {
 
                 displayView!!.image_view.setImageBitmap(bmp)
                 displayView!!.image_view.visibility = View.VISIBLE
-            })
+            }
 
 
         }
@@ -252,24 +233,24 @@ class MainService : AccessibilityService() {
 
     private fun setClickSpannables(tv: TextView)
     {
-        var textToSpan = SpannableString(tv.text)
+        val textToSpan = SpannableString(tv.text)
 
-        var regex = "[^\\s]*".toRegex()
+        val regex = "[^\\s]*".toRegex()
 
 
-        val results = regex.findAll(textToSpan);
+        val results = regex.findAll(textToSpan)
         results.forEach {
-            var clickableSpan = object: ClickableSpan() {
+            val clickableSpan = object: ClickableSpan() {
                 override fun onClick(widget: View) { onWordClick(tv.text.substring(it.range))}
                 override fun updateDrawState(ds: TextPaint) {
-                    ds.setUnderlineText(false);    // this remove the underline
+                    ds.isUnderlineText = false    // this remove the underline
                 }
             }
-            textToSpan.setSpan(clickableSpan, it.range.first, it.range.last+1, 0);
+            textToSpan.setSpan(clickableSpan, it.range.first, it.range.last+1, 0)
 
         }
-        tv.setText(textToSpan)
-        tv.setMovementMethod(LinkMovementMethod.getInstance())
+        tv.text = textToSpan
+        tv.movementMethod = LinkMovementMethod.getInstance()
 
     }
 
