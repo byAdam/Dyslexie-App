@@ -7,18 +7,18 @@
 
     <EditText
         android:id="@+id/letter"
-        style="@style/inputTheme"
+        style="@style/InputStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_weight="1" />
 
     <Button
         android:id="@+id/input_button_upsidedown"
-        style="@style/ButtonTheme"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
         android:text="@string/add_button" />
 </LinearLayout>

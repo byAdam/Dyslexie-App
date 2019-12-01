@@ -17,12 +17,6 @@ import kotlinx.android.synthetic.main.layout_survey_enter_mixup.view.*
 import kotlinx.android.synthetic.main.layout_survey_enter_upsidedown.view.*
 import kotlin.math.max
 import android.provider.Settings
-import android.net.Uri
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import java.net.URI
 
 
 class SurveyActivity : AppCompatActivity() {
@@ -76,7 +70,7 @@ class SurveyActivity : AppCompatActivity() {
         val completeView = LayoutInflater.from(this).inflate(R.layout.layout_survey_complete, question_container, false)
         question_container.addView(completeView)
 
-        val sharedPref: SharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val sharedPref: SharedPreferences = getSharedPreferences("SettingsActivity", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPref.edit()
         for((k,v) in settings)
         {
@@ -86,6 +80,7 @@ class SurveyActivity : AppCompatActivity() {
                 else -> editor.putInt(k, v)
             }
         }
+        editor.putBoolean("update",true)
         editor.apply()
 
 
@@ -247,7 +242,14 @@ class SurveyActivity : AppCompatActivity() {
         }
 
         boolLayout.yes_button.setOnClickListener {
-            onAnswer(questionId,1)
+            if(questionId == "size" || questionId == "skip")
+            {
+                onAnswer(questionId,3)
+            }
+            else
+            {
+                onAnswer(questionId,1)
+            }
         }
     }
 }

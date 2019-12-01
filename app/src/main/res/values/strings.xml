@@ -33,4 +33,10 @@
     <string name="enable_button">Enable Service</string>
     <string name="close_button">Close</string>
     <string name="open_button">Open</string>
+    <string name="text_size">Text Size</string>
+    <string name="line_height">Line Height</string>
+    <string name="font">Font</string>
+    <string name="split_syllables">Split Up Syllables</string>
+    <string name="save">Save</string>
+    <string name="colour">Colour</string>
 </resources>

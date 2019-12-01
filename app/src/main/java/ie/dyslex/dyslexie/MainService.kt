@@ -44,6 +44,7 @@ class MainService : AccessibilityService() {
     private var screenWidth: Int = 0
     private var fontChoices: List<Int> = listOf(R.font.arial,R.font.verdana, R.font.times_new_roman, R.font.open_dyslexic)
     private var colourChoices: List<Int> = listOf(R.color.backgroundPink, R.color.backgroundPurple, R.color.backgroundYellow, R.color.backgroundBlue, R.color.backgroundWhite)
+    private lateinit var sharedPref: SharedPreferences
 
 
     override fun onInterrupt() {
@@ -51,6 +52,7 @@ class MainService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
+        sharedPref = getSharedPreferences("SettingsActivity", Context.MODE_PRIVATE)
         oLayout = RelativeLayout(this)
         loadSettings()
         initOverlay()
@@ -59,12 +61,12 @@ class MainService : AccessibilityService() {
         val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         wm.defaultDisplay.getMetrics(displayMetrics)
         screenWidth = displayMetrics.widthPixels
+
     }
 
     private fun loadSettings()
     {
         whatHighlight = ""
-        val sharedPref: SharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
 
         for(k in settingCategories)
         {
@@ -77,6 +79,10 @@ class MainService : AccessibilityService() {
                 settings[k] = sharedPref.getInt(k,0)
             }
         }
+
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putBoolean("update",false)
+        editor.apply()
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent)
@@ -167,18 +173,23 @@ class MainService : AccessibilityService() {
 
     private fun applySettings()
     {
+        if(sharedPref.getBoolean("update",false))
+        {
+            loadSettings()
+        }
+
+
         // Set Font
         displayView!!.display_view.typeface=ResourcesCompat.getFont(this, fontChoices[settings["font"]!!])
 
-        if(settings["size"]==1)
-        {
-            displayView!!.display_view.setTextSize(TypedValue.COMPLEX_UNIT_SP,20f)
-        }
 
-        if(settings["skip"]==1)
-        {
-            displayView!!.display_view.setLineSpacing(0.0f,1.5f)
-        }
+        // Font Size
+        val sizeCalc = (15+3*settings["size"]!!).toFloat()
+        displayView!!.display_view.setTextSize(TypedValue.COMPLEX_UNIT_SP,sizeCalc)
+
+        // Line Height
+        val skipCalc = (1 + .15*settings["skip"]!!).toFloat()
+        displayView!!.display_view.setLineSpacing(0.0f,skipCalc)
 
         displayView!!.display_view.setBackgroundColor(ResourcesCompat.getColor(resources, colourChoices[settings["colour"]!!], null))
         displayView!!.image_view.setBackgroundColor(ResourcesCompat.getColor(resources, colourChoices[settings["colour"]!!], null))

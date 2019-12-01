@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/survey_complete"
-        style="@style/questionTheme"
+        style="@style/QuestionStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/enable_button"
-        style="@style/ButtonTheme"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/enable_button" />

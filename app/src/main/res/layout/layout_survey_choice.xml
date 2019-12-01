@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/choice_question_view"
-        style="@style/questionTheme"
+        style="@style/QuestionStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3" />
@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/choice_view_1"
-            style="@style/TextviewTheme"
+            style="@style/FontBoxStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/choice_view_2"
-            style="@style/TextviewTheme"
+            style="@style/FontBoxStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"

@@ -7,7 +7,7 @@
 
     <EditText
         android:id="@+id/letter_a"
-        style="@style/inputTheme"
+        style="@style/InputStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
@@ -15,7 +15,7 @@
 
     <EditText
         android:id="@+id/letter_b"
-        style="@style/inputTheme"
+        style="@style/InputStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -24,7 +24,7 @@
 
     <Button
         android:id="@+id/input_button_mixup"
-        style="@style/ButtonTheme"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"

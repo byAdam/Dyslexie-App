@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/bool_question_view"
-            style="@style/questionTheme"
+            style="@style/QuestionStyle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3" />
@@ -29,7 +29,7 @@
 
             <Button
                 android:id="@+id/yes_button"
-                style="@style/ButtonTheme"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -38,7 +38,7 @@
 
             <Button
                 android:id="@+id/no_button"
-                style="@style/ButtonTheme"
+                style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

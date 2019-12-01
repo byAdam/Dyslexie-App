@@ -14,11 +14,22 @@ class MainActivity : AppCompatActivity() {
         survey_button.setOnClickListener{
             onStartSurvey()
         }
+
+        settings_button.setOnClickListener{
+            onStartSettings()
+        }
     }
 
     private fun onStartSurvey()
     {
         val intent = Intent(this, SurveyActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    private fun onStartSettings()
+    {
+        val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
 }
