@@ -30,6 +30,7 @@
     <string name="remove_button">x</string>
     <string name="submit_button">Submit</string>
     <string name="survey_complete">Survey Complete!</string>
+    <string name="enable_button">Enable Service</string>
     <string name="close_button">Close</string>
     <string name="open_button">Open</string>
 </resources>

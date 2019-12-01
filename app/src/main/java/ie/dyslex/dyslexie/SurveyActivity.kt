@@ -1,6 +1,7 @@
 package ie.dyslex.dyslexie
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,10 +11,19 @@ import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.activity_survey.*
 import kotlinx.android.synthetic.main.layout_survey_bool.view.*
 import kotlinx.android.synthetic.main.layout_survey_choice.view.*
+import kotlinx.android.synthetic.main.layout_survey_complete.view.*
 import kotlinx.android.synthetic.main.layout_survey_enter.view.*
 import kotlinx.android.synthetic.main.layout_survey_enter_mixup.view.*
 import kotlinx.android.synthetic.main.layout_survey_enter_upsidedown.view.*
 import kotlin.math.max
+import android.provider.Settings
+import android.net.Uri
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import java.net.URI
+
 
 class SurveyActivity : AppCompatActivity() {
     private val questions: List<String> = listOf("mixUp","whatMixUp","upsideDown","whatUpsideDown","jump","bunched","skip","size","font","colour","complete")
@@ -77,6 +87,12 @@ class SurveyActivity : AppCompatActivity() {
             }
         }
         editor.apply()
+
+
+        completeView.enable_button.setOnClickListener {
+            val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+            startActivity(intent)
+        }
     }
 
     private fun displayQuestion(questionId:String)
