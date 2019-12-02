@@ -45,6 +45,7 @@ class MainService : AccessibilityService() {
     private var fontChoices: List<Int> = listOf(R.font.arial,R.font.verdana, R.font.times_new_roman, R.font.open_dyslexic)
     private var colourChoices: List<Int> = listOf(R.color.backgroundPink, R.color.backgroundPurple, R.color.backgroundYellow, R.color.backgroundBlue, R.color.backgroundWhite)
     private lateinit var sharedPref: SharedPreferences
+    private val imageSearchSuffix: String = ""
 
 
     override fun onInterrupt() {
@@ -87,12 +88,9 @@ class MainService : AccessibilityService() {
 
     override fun onAccessibilityEvent(event: AccessibilityEvent)
     {
-        if (event.eventType==AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED || event.eventType==AccessibilityEvent.TYPE_WINDOWS_CHANGED)
+        if(event.source!=null)
         {
-            if(event.source!=null)
-            {
-                currentEventSource = event.source
-            }
+            currentEventSource = event.source
         }
     }
 
@@ -224,8 +222,10 @@ class MainService : AccessibilityService() {
         var url: URL?
         var bmp: Bitmap?
         val cleanedWord = word.filter { it.isLetterOrDigit() }
+        displayView!!.image_view.setImageResource(R.drawable.loading)
+        displayView!!.image_view.visibility = View.VISIBLE
         thread(start = true) {
-            val apiResponse = URL("https://www.googleapis.com/customsearch/v1?key=AIzaSyD78nsjpP4DeXhDjVclClIeo7vGVplzef0&cx=000786388690677003860:ic6wap8cf4w&q=$cleanedWord+clipart&searchType=image&alt=json&num=1&start=1").readText()
+            val apiResponse = URL("https://www.googleapis.com/customsearch/v1?key=AIzaSyD78nsjpP4DeXhDjVclClIeo7vGVplzef0&cx=000786388690677003860:ic6wap8cf4w&q=$cleanedWord&searchType=image&alt=json&num=1&start=1&imgType=clipart").readText()
             val json = JSONObject(apiResponse)
 
             url = URL(json.getJSONArray("items").getJSONObject(0).getString("link"))
@@ -234,7 +234,6 @@ class MainService : AccessibilityService() {
             Handler(Looper.getMainLooper()).post {
 
                 displayView!!.image_view.setImageBitmap(bmp)
-                displayView!!.image_view.visibility = View.VISIBLE
             }
 
 

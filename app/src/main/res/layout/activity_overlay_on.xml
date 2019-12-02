@@ -14,7 +14,7 @@
         android:minHeight="20dp"
         android:text="@string/close_button" />
 
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
